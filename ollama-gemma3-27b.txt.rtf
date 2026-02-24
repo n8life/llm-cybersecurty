@@ -1,0 +1,289 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2868
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\froman\fcharset0 Times-Roman;\f1\fmodern\fcharset0 Courier;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red147\green0\blue147;\red42\green44\blue51;
+\red143\green144\blue150;\red66\green147\blue62;\red50\green94\blue238;\red219\green63\blue57;\red178\green113\blue6;
+\red184\green93\blue213;\red155\green162\blue177;\red74\green80\blue93;\red136\green185\blue102;\red81\green157\blue235;
+\red214\green85\blue98;\red197\green136\blue83;}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c0;\cssrgb\c65098\c14902\c64314;\cssrgb\c21961\c22745\c25882;
+\cssrgb\c62745\c63137\c65490;\cssrgb\c31373\c63137\c30980;\cssrgb\c25098\c47059\c94902;\cssrgb\c89412\c33725\c28627;\cssrgb\c75686\c51765\c392;
+\cssrgb\c77647\c47059\c86667;\cssrgb\c67059\c69804\c74902;\cssrgb\c36078\c38824\c43922;\cssrgb\c59608\c76471\c47451;\cssrgb\c38039\c68627\c93725;
+\cssrgb\c87843\c42353\c45882;\cssrgb\c81961\c60392\c40000;}
+{\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat0\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid1\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid1}
+{\list\listtemplateid2\listhybrid{\listlevel\levelnfc0\levelnfcn0\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{decimal\}}{\leveltext\leveltemplateid101\'01\'00;}{\levelnumbers\'01;}\fi-360\li720\lin720 }{\listname ;}\listid2}}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}{\listoverride\listid2\listoverridecount0\ls2}}
+\margl1440\margr1440\vieww25240\viewh19540\viewkind0
+\deftab720
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs24 \cf0 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 python\
+\pard\pardeftab720\partightenfactor0
+
+\f1\fs26 \cf3 \strokec3 import\cf4 \strokec4  feedparser\cf0 \strokec2 \
+\cf3 \strokec3 import\cf4 \strokec4  json\cf0 \strokec2 \
+\cf3 \strokec3 from\cf4 \strokec4  langchain.llms \cf3 \strokec3 import\cf4 \strokec4  OpenAI\cf0 \strokec2 \
+\cf3 \strokec3 from\cf4 \strokec4  langchain.prompts \cf3 \strokec3 import\cf4 \strokec4  PromptTemplate\cf0 \strokec2 \
+\cf3 \strokec3 from\cf4 \strokec4  langchain.chains \cf3 \strokec3 import\cf4 \strokec4  LLMChain\cf0 \strokec2 \
+\cf3 \strokec3 import\cf4 \strokec4  os\cf0 \strokec2 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf5 \strokec5 # Replace with your OpenAI API key\cf0 \strokec2 \
+\pard\pardeftab720\partightenfactor0
+\cf4 \strokec4 os.environ["\cf6 \strokec6 OPENAI_API_KEY\cf4 \strokec4 "] \cf3 \strokec3 =\cf4 \strokec4  "\cf6 \strokec6 YOUR_OPENAI_API_KEY\cf4 \strokec4 "\cf0 \strokec2 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf3 \strokec3 def\cf4 \strokec4  \cf7 \strokec7 analyze_feed\cf4 \strokec4 (\cf8 \strokec8 feed_url\cf4 \strokec4 ):\cf0 \strokec2 \
+\pard\pardeftab720\partightenfactor0
+\cf4 \strokec4     """\cf0 \strokec2 \
+\pard\pardeftab720\partightenfactor0
+\cf6 \strokec6     Parses an RSS feed, analyzes each entry, and returns a JSON list of analyzed items.\cf0 \strokec2 \
+\cf6 \strokec6     \cf4 \strokec4 """\cf0 \strokec2 \
+\pard\pardeftab720\partightenfactor0
+\cf4 \strokec4     feed \cf3 \strokec3 =\cf4 \strokec4  feedparser.parse(feed_url)\cf0 \strokec2 \
+\cf4 \strokec4     entries \cf3 \strokec3 =\cf4 \strokec4  feed.entries\cf0 \strokec2 \
+\
+\cf4 \strokec4     analyzed_items \cf3 \strokec3 =\cf4 \strokec4  []\cf0 \strokec2 \
+\
+\cf4 \strokec4     \cf3 \strokec3 for\cf4 \strokec4  entry \cf3 \strokec3 in\cf4 \strokec4  entries:\cf0 \strokec2 \
+\cf4 \strokec4         title \cf3 \strokec3 =\cf4 \strokec4  entry.title\cf0 \strokec2 \
+\cf4 \strokec4         summary \cf3 \strokec3 =\cf4 \strokec4  entry.summary\cf0 \strokec2 \
+\cf4 \strokec4         \cf5 \strokec5 #Sometimes there is no summary.  Handle that.\cf0 \strokec2 \
+\cf4 \strokec4         \cf3 \strokec3 if\cf4 \strokec4  summary \cf3 \strokec3 is\cf4 \strokec4  \cf9 \strokec9 None\cf4 \strokec4 :\cf0 \strokec2 \
+\cf4 \strokec4             summary \cf3 \strokec3 =\cf4 \strokec4  ""\cf0 \strokec2 \
+\
+\cf4 \strokec4         analysis \cf3 \strokec3 =\cf4 \strokec4  analyze_entry(title, summary)\cf0 \strokec2 \
+\cf4 \strokec4         analyzed_items.append(analysis)\cf0 \strokec2 \
+\
+\cf4 \strokec4     \cf3 \strokec3 return\cf4 \strokec4  json.dumps(analyzed_items, \cf8 \strokec8 indent\cf3 \strokec3 =\cf9 \strokec9 2\cf4 \strokec4 )\cf0 \strokec2 \
+\
+\
+\pard\pardeftab720\partightenfactor0
+\cf3 \strokec3 def\cf4 \strokec4  \cf7 \strokec7 analyze_entry\cf4 \strokec4 (\cf8 \strokec8 title\cf4 \strokec4 , \cf8 \strokec8 summary\cf4 \strokec4 ):\cf0 \strokec2 \
+\pard\pardeftab720\partightenfactor0
+\cf4 \strokec4     """\cf0 \strokec2 \
+\pard\pardeftab720\partightenfactor0
+\cf6 \strokec6     Analyzes a single feed entry using a Langchain LLM.\cf0 \strokec2 \
+\cf6 \strokec6     \cf4 \strokec4 """\cf0 \strokec2 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf4 \strokec4     \cf5 \strokec5 # Prompt Template\cf0 \strokec2 \
+\cf4 \strokec4     prompt_template \cf3 \strokec3 =\cf4 \strokec4  """\cf0 \strokec2 \
+\pard\pardeftab720\partightenfactor0
+\cf6 \strokec6     You are a cybersecurity analyst tasked with classifying RSS feed entries. \cf0 \strokec2 \
+\cf6 \strokec6     Based on the following title and summary, determine:\cf0 \strokec2 \
+\cf6 \strokec6     1. Is this a security advisory/threat intelligence report, or an advertisement?  \cf0 \strokec2 \
+\cf6 \strokec6     Answer with only "Security Advisory/Threat Intelligence Report" or "Advertisement".\cf0 \strokec2 \
+\cf6 \strokec6     2. If it's a Security Advisory, what security framework(s) would this information be relevant to? (e.g. MITRE ATT&CK, NIST, ISO 27001)\cf0 \strokec2 \
+\cf6 \strokec6     3. What level of technical language is used? (e.g. Highly technical, Technical, Accessible to IT professionals)\cf0 \strokec2 \
+\cf6 \strokec6     4. If applicable, what platform(s) does this threat target? (e.g. WordPress, Windows, Linux, Android, iOS, Cloud)\cf0 \strokec2 \
+\cf6 \strokec6     5. Summarize the key information in 1-2 sentences.\cf0 \strokec2 \
+\
+\cf6 \strokec6     Here's the title: \cf9 \strokec9 \{title\}\cf0 \strokec2 \
+\cf6 \strokec6     Here's the summary: \cf9 \strokec9 \{summary\}\cf0 \strokec2 \
+\
+\cf6 \strokec6     Output in JSON format with the following keys: "title", "type", "framework", "language", "platform", "summary".  Do not include any preamble or explanation.\cf0 \strokec2 \
+\cf6 \strokec6     \cf4 \strokec4 """\cf0 \strokec2 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf4 \strokec4     prompt \cf3 \strokec3 =\cf4 \strokec4  PromptTemplate(\cf8 \strokec8 template\cf3 \strokec3 =\cf4 \strokec4 prompt_template, \cf8 \strokec8 input_variables\cf3 \strokec3 =\cf4 \strokec4 ["\cf6 \strokec6 title\cf4 \strokec4 ", "\cf6 \strokec6 summary\cf4 \strokec4 "])\cf0 \strokec2 \
+\cf4 \strokec4     llm \cf3 \strokec3 =\cf4 \strokec4  OpenAI(\cf8 \strokec8 temperature\cf3 \strokec3 =\cf9 \strokec9 0.2\cf4 \strokec4 )  \cf5 \strokec5 #Adjust temperature for more/less creativity\cf0 \strokec2 \
+\cf4 \strokec4     chain \cf3 \strokec3 =\cf4 \strokec4  LLMChain(\cf8 \strokec8 llm\cf3 \strokec3 =\cf4 \strokec4 llm, \cf8 \strokec8 prompt\cf3 \strokec3 =\cf4 \strokec4 prompt)\cf0 \strokec2 \
+\cf4 \strokec4     response \cf3 \strokec3 =\cf4 \strokec4  chain.run(\cf8 \strokec8 title\cf3 \strokec3 =\cf4 \strokec4 title, \cf8 \strokec8 summary\cf3 \strokec3 =\cf4 \strokec4 summary)\cf0 \strokec2 \
+\
+\cf4 \strokec4     \cf3 \strokec3 try\cf4 \strokec4 :\cf0 \strokec2 \
+\cf4 \strokec4         \cf5 \strokec5 #Attempt to parse as JSON.  LLM responses can be imperfect, so handle errors.\cf0 \strokec2 \
+\cf4 \strokec4         analysis \cf3 \strokec3 =\cf4 \strokec4  json.loads(response)\cf0 \strokec2 \
+\cf4 \strokec4         \cf3 \strokec3 return\cf4 \strokec4  analysis\cf0 \strokec2 \
+\cf4 \strokec4     \cf3 \strokec3 except\cf4 \strokec4  json.JSONDecodeError \cf3 \strokec3 as\cf4 \strokec4  e:\cf0 \strokec2 \
+\cf4 \strokec4         \cf7 \strokec7 print\cf4 \strokec4 (\cf3 \strokec3 f\cf6 \strokec6 "JSON Decode Error: \cf9 \strokec9 \{\cf4 \strokec4 e\cf9 \strokec9 \}\cf6 \strokec6 "\cf4 \strokec4 )\cf0 \strokec2 \
+\cf4 \strokec4         \cf7 \strokec7 print\cf4 \strokec4 (\cf3 \strokec3 f\cf6 \strokec6 "Problematic Response: \cf9 \strokec9 \{\cf4 \strokec4 response\cf9 \strokec9 \}\cf6 \strokec6 "\cf4 \strokec4 ) \cf5 \strokec5 #Print the response to help debug.\cf0 \strokec2 \
+\cf4 \strokec4         \cf5 \strokec5 #Return a default dictionary to avoid crashing.  You might want to log this event.\cf0 \strokec2 \
+\cf4 \strokec4         \cf3 \strokec3 return\cf4 \strokec4  \{\cf0 \strokec2 \
+\cf4 \strokec4             "\cf6 \strokec6 title\cf4 \strokec4 ": title,\cf0 \strokec2 \
+\cf4 \strokec4             "\cf6 \strokec6 type\cf4 \strokec4 ": "\cf6 \strokec6 Unknown\cf4 \strokec4 ",\cf0 \strokec2 \
+\cf4 \strokec4             "\cf6 \strokec6 framework\cf4 \strokec4 ": "\cf6 \strokec6 Unknown\cf4 \strokec4 ",\cf0 \strokec2 \
+\cf4 \strokec4             "\cf6 \strokec6 language\cf4 \strokec4 ": "\cf6 \strokec6 Unknown\cf4 \strokec4 ",\cf0 \strokec2 \
+\cf4 \strokec4             "\cf6 \strokec6 platform\cf4 \strokec4 ": "\cf6 \strokec6 Unknown\cf4 \strokec4 ",\cf0 \strokec2 \
+\cf4 \strokec4             "\cf6 \strokec6 summary\cf4 \strokec4 ": "\cf6 \strokec6 Unable to parse response from LLM.\cf4 \strokec4 "\cf0 \strokec2 \
+\cf4 \strokec4         \}\cf0 \strokec2 \
+\
+\
+\
+\pard\pardeftab720\partightenfactor0
+\cf3 \strokec3 if\cf4 \strokec4  \cf8 \strokec8 __name__\cf4 \strokec4  \cf3 \strokec3 ==\cf4 \strokec4  "\cf6 \strokec6 __main__\cf4 \strokec4 ":\cf0 \strokec2 \
+\pard\pardeftab720\partightenfactor0
+\cf4 \strokec4     feed_url \cf3 \strokec3 =\cf4 \strokec4  "\cf6 \strokec6 https://cybersecuritynews.com/feed/\cf4 \strokec4 "\cf0 \strokec2 \
+\cf4 \strokec4     analysis_results \cf3 \strokec3 =\cf4 \strokec4  analyze_feed(feed_url)\cf0 \strokec2 \
+\cf4 \strokec4     \cf7 \strokec7 print\cf4 \strokec4 (analysis_results)\cf0 \strokec2 \
+\pard\pardeftab720\partightenfactor0
+\cf10 \strokec10 import\cf11 \strokec11  feedparser\cf0 \strokec2 \
+\cf10 \strokec10 import\cf11 \strokec11  json\cf0 \strokec2 \
+\cf10 \strokec10 from\cf11 \strokec11  langchain.llms \cf10 \strokec10 import\cf11 \strokec11  OpenAI\cf0 \strokec2 \
+\cf10 \strokec10 from\cf11 \strokec11  langchain.prompts \cf10 \strokec10 import\cf11 \strokec11  PromptTemplate\cf0 \strokec2 \
+\cf10 \strokec10 from\cf11 \strokec11  langchain.chains \cf10 \strokec10 import\cf11 \strokec11  LLMChain\cf0 \strokec2 \
+\cf10 \strokec10 import\cf11 \strokec11  os\cf0 \strokec2 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf12 \strokec12 # Replace with your OpenAI API key\cf0 \strokec2 \
+\pard\pardeftab720\partightenfactor0
+\cf11 \strokec11 os.environ["\cf13 \strokec13 OPENAI_API_KEY\cf11 \strokec11 "] \cf10 \strokec10 =\cf11 \strokec11  "\cf13 \strokec13 YOUR_OPENAI_API_KEY\cf11 \strokec11 "\cf0 \strokec2 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf10 \strokec10 def\cf11 \strokec11  \cf14 \strokec14 analyze_feed\cf11 \strokec11 (\cf15 \strokec15 feed_url\cf11 \strokec11 ):\cf0 \strokec2 \
+\pard\pardeftab720\partightenfactor0
+\cf11 \strokec11     """\cf0 \strokec2 \
+\pard\pardeftab720\partightenfactor0
+\cf13 \strokec13     Parses an RSS feed, analyzes each entry, and returns a JSON list of analyzed items.\cf0 \strokec2 \
+\cf13 \strokec13     \cf11 \strokec11 """\cf0 \strokec2 \
+\pard\pardeftab720\partightenfactor0
+\cf11 \strokec11     feed \cf10 \strokec10 =\cf11 \strokec11  feedparser.parse(feed_url)\cf0 \strokec2 \
+\cf11 \strokec11     entries \cf10 \strokec10 =\cf11 \strokec11  feed.entries\cf0 \strokec2 \
+\
+\cf11 \strokec11     analyzed_items \cf10 \strokec10 =\cf11 \strokec11  []\cf0 \strokec2 \
+\
+\cf11 \strokec11     \cf10 \strokec10 for\cf11 \strokec11  entry \cf10 \strokec10 in\cf11 \strokec11  entries:\cf0 \strokec2 \
+\cf11 \strokec11         title \cf10 \strokec10 =\cf11 \strokec11  entry.title\cf0 \strokec2 \
+\cf11 \strokec11         summary \cf10 \strokec10 =\cf11 \strokec11  entry.summary\cf0 \strokec2 \
+\cf11 \strokec11         \cf12 \strokec12 #Sometimes there is no summary.  Handle that.\cf0 \strokec2 \
+\cf11 \strokec11         \cf10 \strokec10 if\cf11 \strokec11  summary \cf10 \strokec10 is\cf11 \strokec11  \cf16 \strokec16 None\cf11 \strokec11 :\cf0 \strokec2 \
+\cf11 \strokec11             summary \cf10 \strokec10 =\cf11 \strokec11  ""\cf0 \strokec2 \
+\
+\cf11 \strokec11         analysis \cf10 \strokec10 =\cf11 \strokec11  analyze_entry(title, summary)\cf0 \strokec2 \
+\cf11 \strokec11         analyzed_items.append(analysis)\cf0 \strokec2 \
+\
+\cf11 \strokec11     \cf10 \strokec10 return\cf11 \strokec11  json.dumps(analyzed_items, \cf15 \strokec15 indent\cf10 \strokec10 =\cf16 \strokec16 2\cf11 \strokec11 )\cf0 \strokec2 \
+\
+\
+\pard\pardeftab720\partightenfactor0
+\cf10 \strokec10 def\cf11 \strokec11  \cf14 \strokec14 analyze_entry\cf11 \strokec11 (\cf15 \strokec15 title\cf11 \strokec11 , \cf15 \strokec15 summary\cf11 \strokec11 ):\cf0 \strokec2 \
+\pard\pardeftab720\partightenfactor0
+\cf11 \strokec11     """\cf0 \strokec2 \
+\pard\pardeftab720\partightenfactor0
+\cf13 \strokec13     Analyzes a single feed entry using a Langchain LLM.\cf0 \strokec2 \
+\cf13 \strokec13     \cf11 \strokec11 """\cf0 \strokec2 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf11 \strokec11     \cf12 \strokec12 # Prompt Template\cf0 \strokec2 \
+\cf11 \strokec11     prompt_template \cf10 \strokec10 =\cf11 \strokec11  """\cf0 \strokec2 \
+\pard\pardeftab720\partightenfactor0
+\cf13 \strokec13     You are a cybersecurity analyst tasked with classifying RSS feed entries. \cf0 \strokec2 \
+\cf13 \strokec13     Based on the following title and summary, determine:\cf0 \strokec2 \
+\cf13 \strokec13     1. Is this a security advisory/threat intelligence report, or an advertisement?  \cf0 \strokec2 \
+\cf13 \strokec13     Answer with only "Security Advisory/Threat Intelligence Report" or "Advertisement".\cf0 \strokec2 \
+\cf13 \strokec13     2. If it's a Security Advisory, what security framework(s) would this information be relevant to? (e.g. MITRE ATT&CK, NIST, ISO 27001)\cf0 \strokec2 \
+\cf13 \strokec13     3. What level of technical language is used? (e.g. Highly technical, Technical, Accessible to IT professionals)\cf0 \strokec2 \
+\cf13 \strokec13     4. If applicable, what platform(s) does this threat target? (e.g. WordPress, Windows, Linux, Android, iOS, Cloud)\cf0 \strokec2 \
+\cf13 \strokec13     5. Summarize the key information in 1-2 sentences.\cf0 \strokec2 \
+\
+\cf13 \strokec13     Here's the title: \cf16 \strokec16 \{title\}\cf0 \strokec2 \
+\cf13 \strokec13     Here's the summary: \cf16 \strokec16 \{summary\}\cf0 \strokec2 \
+\
+\cf13 \strokec13     Output in JSON format with the following keys: "title", "type", "framework", "language", "platform", "summary".  Do not include any preamble or explanation.\cf0 \strokec2 \
+\cf13 \strokec13     \cf11 \strokec11 """\cf0 \strokec2 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf11 \strokec11     prompt \cf10 \strokec10 =\cf11 \strokec11  PromptTemplate(\cf15 \strokec15 template\cf10 \strokec10 =\cf11 \strokec11 prompt_template, \cf15 \strokec15 input_variables\cf10 \strokec10 =\cf11 \strokec11 ["\cf13 \strokec13 title\cf11 \strokec11 ", "\cf13 \strokec13 summary\cf11 \strokec11 "])\cf0 \strokec2 \
+\cf11 \strokec11     llm \cf10 \strokec10 =\cf11 \strokec11  OpenAI(\cf15 \strokec15 temperature\cf10 \strokec10 =\cf16 \strokec16 0.2\cf11 \strokec11 )  \cf12 \strokec12 #Adjust temperature for more/less creativity\cf0 \strokec2 \
+\cf11 \strokec11     chain \cf10 \strokec10 =\cf11 \strokec11  LLMChain(\cf15 \strokec15 llm\cf10 \strokec10 =\cf11 \strokec11 llm, \cf15 \strokec15 prompt\cf10 \strokec10 =\cf11 \strokec11 prompt)\cf0 \strokec2 \
+\cf11 \strokec11     response \cf10 \strokec10 =\cf11 \strokec11  chain.run(\cf15 \strokec15 title\cf10 \strokec10 =\cf11 \strokec11 title, \cf15 \strokec15 summary\cf10 \strokec10 =\cf11 \strokec11 summary)\cf0 \strokec2 \
+\
+\cf11 \strokec11     \cf10 \strokec10 try\cf11 \strokec11 :\cf0 \strokec2 \
+\cf11 \strokec11         \cf12 \strokec12 #Attempt to parse as JSON.  LLM responses can be imperfect, so handle errors.\cf0 \strokec2 \
+\cf11 \strokec11         analysis \cf10 \strokec10 =\cf11 \strokec11  json.loads(response)\cf0 \strokec2 \
+\cf11 \strokec11         \cf10 \strokec10 return\cf11 \strokec11  analysis\cf0 \strokec2 \
+\cf11 \strokec11     \cf10 \strokec10 except\cf11 \strokec11  json.JSONDecodeError \cf10 \strokec10 as\cf11 \strokec11  e:\cf0 \strokec2 \
+\cf11 \strokec11         \cf14 \strokec14 print\cf11 \strokec11 (\cf10 \strokec10 f\cf13 \strokec13 "JSON Decode Error: \cf16 \strokec16 \{\cf11 \strokec11 e\cf16 \strokec16 \}\cf13 \strokec13 "\cf11 \strokec11 )\cf0 \strokec2 \
+\cf11 \strokec11         \cf14 \strokec14 print\cf11 \strokec11 (\cf10 \strokec10 f\cf13 \strokec13 "Problematic Response: \cf16 \strokec16 \{\cf11 \strokec11 response\cf16 \strokec16 \}\cf13 \strokec13 "\cf11 \strokec11 ) \cf12 \strokec12 #Print the response to help debug.\cf0 \strokec2 \
+\cf11 \strokec11         \cf12 \strokec12 #Return a default dictionary to avoid crashing.  You might want to log this event.\cf0 \strokec2 \
+\cf11 \strokec11         \cf10 \strokec10 return\cf11 \strokec11  \{\cf0 \strokec2 \
+\cf11 \strokec11             "\cf13 \strokec13 title\cf11 \strokec11 ": title,\cf0 \strokec2 \
+\cf11 \strokec11             "\cf13 \strokec13 type\cf11 \strokec11 ": "\cf13 \strokec13 Unknown\cf11 \strokec11 ",\cf0 \strokec2 \
+\cf11 \strokec11             "\cf13 \strokec13 framework\cf11 \strokec11 ": "\cf13 \strokec13 Unknown\cf11 \strokec11 ",\cf0 \strokec2 \
+\cf11 \strokec11             "\cf13 \strokec13 language\cf11 \strokec11 ": "\cf13 \strokec13 Unknown\cf11 \strokec11 ",\cf0 \strokec2 \
+\cf11 \strokec11             "\cf13 \strokec13 platform\cf11 \strokec11 ": "\cf13 \strokec13 Unknown\cf11 \strokec11 ",\cf0 \strokec2 \
+\cf11 \strokec11             "\cf13 \strokec13 summary\cf11 \strokec11 ": "\cf13 \strokec13 Unable to parse response from LLM.\cf11 \strokec11 "\cf0 \strokec2 \
+\cf11 \strokec11         \}\cf0 \strokec2 \
+\
+\
+\
+\pard\pardeftab720\partightenfactor0
+\cf10 \strokec10 if\cf11 \strokec11  \cf15 \strokec15 __name__\cf11 \strokec11  \cf10 \strokec10 ==\cf11 \strokec11  "\cf13 \strokec13 __main__\cf11 \strokec11 ":\cf0 \strokec2 \
+\pard\pardeftab720\partightenfactor0
+\cf11 \strokec11     feed_url \cf10 \strokec10 =\cf11 \strokec11  "\cf13 \strokec13 https://cybersecuritynews.com/feed/\cf11 \strokec11 "\cf0 \strokec2 \
+\cf11 \strokec11     analysis_results \cf10 \strokec10 =\cf11 \strokec11  analyze_feed(feed_url)\cf0 \strokec2 \
+\cf11 \strokec11     \cf14 \strokec14 print\cf11 \strokec11 (analysis_results)\cf0 \strokec2 \
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f0\fs24 \cf0 Key improvements and explanations:\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
+\ls1\ilvl0\cf0 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Error Handling: Crucially includes 
+\f1\fs26 try...except
+\f0\fs24  blocks to handle 
+\f1\fs26 json.JSONDecodeError
+\f0\fs24 . LLMs aren't perfect and can produce invalid JSON. This prevents the script from crashing and provides a default response. The problematic response is also printed to the console for debugging.\
+\ls1\ilvl0\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Clear Prompt: The prompt is more detailed and explicitly instructs the LLM to output JSON. This increases the likelihood of a parsable response. It also specifies the keys to use.\
+\ls1\ilvl0\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Temperature Setting: Added 
+\f1\fs26 temperature=0.2
+\f0\fs24  to the OpenAI LLM. Lower temperatures make the response more deterministic and less creative (which is good for structured output like JSON).\
+\ls1\ilvl0\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Feed Parsing: Uses 
+\f1\fs26 feedparser
+\f0\fs24  to correctly parse the RSS feed.\
+\ls1\ilvl0\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Concise Output: The script outputs a single JSON string representing the list of analyzed items.\
+\ls1\ilvl0\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Comments: Added detailed comments to explain each part of the code.\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
+\ls1\ilvl0
+\f1\fs26 \cf0 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 if __name__ == "__main__":
+\f0\fs24  block: Ensures the analysis only runs when the script is executed directly (not when imported as a module).\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
+\ls1\ilvl0\cf0 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 API Key: The script assumes you have set the 
+\f1\fs26 OPENAI_API_KEY
+\f0\fs24  environment variable.\
+\ls1\ilvl0\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Clear Instructions: Added a note to replace 
+\f1\fs26 "YOUR_OPENAI_API_KEY"
+\f0\fs24  with your actual key.\
+\pard\pardeftab720\sa240\partightenfactor0
+\cf0 How to use it:\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
+\ls2\ilvl0\cf0 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	1	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Install Libraries:bash\uc0\u8232 \u8232 
+\f1\fs26 \cf7 \strokec7 pip\cf4 \strokec4  \cf6 \strokec6 install\cf4 \strokec4  \cf6 \strokec6 feedparser\cf4 \strokec4  \cf6 \strokec6 langchain\cf4 \strokec4  \cf6 \strokec6 openai\cf0 \strokec2 \
+\pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
+\ls2\ilvl0\cf0 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	2	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 \uc0\u8232 \cf14 \strokec14 pip\cf11 \strokec11  \cf13 \strokec13 install\cf11 \strokec11  \cf13 \strokec13 feedparser\cf11 \strokec11  \cf13 \strokec13 langchain\cf11 \strokec11  \cf13 \strokec13 openai\cf0 \strokec2 \
+\ls2\ilvl0\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	3	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 \uc0\u8232 
+\f0\fs24 \
+\pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
+\ls2\ilvl0\cf0 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	4	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Set OpenAI API Key: Set the 
+\f1\fs26 OPENAI_API_KEY
+\f0\fs24  environment variable:bash\uc0\u8232 \u8232 
+\f1\fs26 \cf3 \strokec3 export\cf4 \strokec4  \cf8 \strokec8 OPENAI_API_KEY\cf3 \strokec3 =\cf4 \strokec4 "\cf6 \strokec6 YOUR_OPENAI_API_KEY\cf4 \strokec4 "\cf0 \strokec2 \
+\pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
+\ls2\ilvl0\cf0 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	5	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 \uc0\u8232 \cf10 \strokec10 export\cf11 \strokec11  \cf15 \strokec15 OPENAI_API_KEY\cf10 \strokec10 =\cf11 \strokec11 "\cf13 \strokec13 YOUR_OPENAI_API_KEY\cf11 \strokec11 "\cf0 \strokec2 \
+\ls2\ilvl0\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	6	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 \uc0\u8232 
+\f0\fs24 \
+\pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
+\ls2\ilvl0\cf0 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	7	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Run the Script:bash\uc0\u8232 \u8232 
+\f1\fs26 \cf7 \strokec7 python\cf4 \strokec4  \cf6 \strokec6 your_script_name.py\cf0 \strokec2 \
+\pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
+\ls2\ilvl0\cf0 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	8	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 \uc0\u8232 \cf14 \strokec14 python\cf11 \strokec11  \cf13 \strokec13 your_script_name.py\cf0 \strokec2 \
+\ls2\ilvl0\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	9	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 \uc0\u8232 
+\f0\fs24 \
+\pard\pardeftab720\sa240\partightenfactor0
+\cf0 This revised script is much more robust and should reliably analyze the RSS feed and produce the desired JSON output. Remember to monitor the LLM's responses and adjust the prompt and parameters (temperature, etc.) as needed to optimize the results.\
+}
